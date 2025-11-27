@@ -1,1 +1,2 @@
-miembro_id,nombre,documento,telefono,correo,plan (BÁSICO | PREMIUM | FULL),fecha_inicio,fecha_fin_plan,estado (ACTIVO | INACTIVO)
+miembro_id,nombre,documento,telefono,correo,plan,fecha_inicio,fecha_fin_plan,estado
+1,DSAFSAD,sdfsdsdg,54654,sdsddg,BASICO,2025-11-26,2025-12-26,ACTIVO
