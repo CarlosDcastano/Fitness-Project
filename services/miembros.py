@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timedelta
 
 RUTA_MIEMBROS = os.path.join("data", "miembros.csv")
+miembros = leer_csv(RUTA_MIEMBROS)
 
 def registrar_miembro():
     print("===Registrar un miembro===")
@@ -32,7 +33,7 @@ def registrar_miembro():
     while not estado or estado not in estados:
         estado = input("Ingrese el Estado: ").upper()
     
-    miembros = leer_csv(RUTA_MIEMBROS)
+    
     
     if miembros:
         miembro_id = max(int(m["miembro_id"]) for m in miembros)
@@ -56,3 +57,23 @@ def registrar_miembro():
 
     return nuevo_miembro
 
+def listar_miembros():
+    for m in miembros:
+        print(f"ID: {m['miembro_id']} |Nombre: {m['nombre']} |Estado: {m["estado"]}")
+
+def buscar_miembro():
+    documento = ""
+    while not documento:
+        documento = input("Ingrese el documento del miembro a buscar: ")
+    for m in miembros:
+        if documento == m["documento"]:
+            return m
+    print(f"Documento {documento} No coincide con ninguno de los miembros") 
+
+def actualizar_miembro():
+    miembro = buscar_miembro()
+
+    miembro["nombre"] = input("Ingrese el nuevo nombre: ")
+    while not miembro["nombre"]:
+        miembro["nombre"] = input("Debe ingresar un nombre: ")
+    
