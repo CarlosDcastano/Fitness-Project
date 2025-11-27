@@ -31,8 +31,6 @@ def registrar_miembro():
         plan = input("Ingrese plan (BÁSICO | PREMIUM | FULL): ").upper()
     while not estado or estado not in estados:
         estado = input("Ingrese el Estado: ").upper()
-
-    
     
     miembros = leer_csv(RUTA_MIEMBROS)
     
@@ -58,5 +56,3 @@ def registrar_miembro():
 
     return nuevo_miembro
 
-  
-registrar_miembro()
