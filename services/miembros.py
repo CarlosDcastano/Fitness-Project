@@ -1,11 +1,13 @@
-from utils.csv_utils import leer_csv, escribir_csv
+from utils.csv_utils import leer_csv, escribir_csv, sobrescribir_csv
 import os
 from datetime import datetime, timedelta
 
 RUTA_MIEMBROS = os.path.join("data", "miembros.csv")
-miembros = leer_csv(RUTA_MIEMBROS)
+
+
 
 def registrar_miembro():
+    miembros = leer_csv(RUTA_MIEMBROS)
     print("===Registrar un miembro===")
     nombre=""
     documento = ""
@@ -40,31 +42,42 @@ def registrar_miembro():
     else:
         miembro_id = 0
 
+    existe = next((m for m in miembros if m["documento"] == documento), None)
+
+    if existe:
+        print("El miembro ya existe, no es posible agregarlo")
+        return None
     
-    nuevo_miembro = {
-        "miembro_id" : miembro_id+1,
-        "nombre" : nombre,
-        "documento" : documento,
-        "telefono" : telefono,
-        "correo" : correo,
-        "plan" : plan,
-        "fecha_inicio" : fecha_inicio,
-        "fecha_fin_plan" : fecha_fin,
-        "estado" : estado,
-    }
-
-    escribir_csv([nuevo_miembro], RUTA_MIEMBROS)
-
-    return nuevo_miembro
+    else:
+        nuevo_miembro = {
+            "miembro_id" : miembro_id+1,
+            "nombre" : nombre,
+            "documento" : documento,
+            "telefono" : telefono,
+            "correo" : correo,
+            "plan" : plan,
+            "fecha_inicio" : fecha_inicio,
+            "fecha_fin_plan" : fecha_fin,
+            "estado" : estado,
+        }
+    
+        escribir_csv([nuevo_miembro], RUTA_MIEMBROS)
+    
+        return nuevo_miembro
 
 def listar_miembros():
-    for m in miembros:
-        print(f"ID: {m['miembro_id']} |Nombre: {m['nombre']} |Estado: {m["estado"]}")
+    miembros = leer_csv(RUTA_MIEMBROS)
+    if not miembros:
+        print("No hay miembros por mostrar, esta vacío")
+    else:
+        for m in miembros:
+            print(f"ID: {m['miembro_id']} |Nombre: {m['nombre']} |Estado: {m["estado"]}")
 
 def buscar_miembro():
+    miembros = leer_csv(RUTA_MIEMBROS)
     documento = ""
     while not documento:
-        documento = input("Ingrese el documento del miembro a buscar: ")
+        documento = input("Ingrese el documento: ")
     for m in miembros:
         if documento == m["documento"]:
             return m

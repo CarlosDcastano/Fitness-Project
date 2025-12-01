@@ -1,16 +1,17 @@
 import csv
 import os
+from csv import DictReader
 
-def leer_csv(ruta):
+def leer_csv(ruta_del_archivo):
     """
     Lee un archivo CSV y devuelve una lista de diccionarios.
     Cada fila del CSV será un diccionario cuyas claves son los encabezados.
     """
     try:
-        with open(ruta, newline='', encoding='utf-8') as archivo:
+        with open(ruta_del_archivo, newline='', encoding='utf-8') as archivo:
             return list(csv.DictReader(archivo))
     except FileNotFoundError:
-        print(f"[ERROR] No se encontró el archivo: {ruta}")
+        print(f"[ERROR] No se encontró el archivo: {ruta_del_archivo}")
         return []
 
 def escribir_csv(nuevos_datos, ruta):
@@ -46,3 +47,20 @@ def escribir_csv(nuevos_datos, ruta):
 
         # Escribir las filas nuevas
         escritor.writerows(nuevos_datos)
+
+
+def sobrescribir_csv(datos, ruta):
+    if len(datos) == 0:
+        raise ValueError("No hay datos para escribir.")
+
+    encabezados = list(datos[0].keys())
+
+    with open(ruta, 'w', newline='', encoding='utf-8') as archivo:
+        escritor = csv.DictWriter(archivo, fieldnames=encabezados)
+        escritor.writeheader()
+        escritor.writerows(datos)
+
+
+
+
+
